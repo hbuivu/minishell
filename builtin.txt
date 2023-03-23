@@ -1,0 +1,50 @@
+DON"T FORGET ERRORS: -if you write echo only, if you write unset only, execute
+There can only be one global variable. I assume that would be the list of environmental variables
+
+1. echo
+-n = do not output the trailing newline
+ft_putstring input with newline
+if there is -n, do not include the newline
+
+2. cd 
+int chdir(const char *path)
+On success, zero is returned.  
+On error, -1 is returned, and errno is set to indicate the error.
+changes the current working directory of the calling process to the directory specified in path.
+NOTE: execute chdir in the parent process
+afterwards, change the prompt using rl_replace_line / rl_redisplay / rl_on_new_line
+
+3. pwd 
+write to stdout the full path name of current directory
+char *getcwd(char *buf, size_t size)
+use this function to get current directory
+printf the string
+
+***4. export
+list all currently defined environmental variables in the current shell in alphabetical order
+ft_split env var;
+sort all variables in alphabetical order
+join each variable wtih "declare -x PATH"
+ex: declare -x COLORTERM="truecolor"
+while (split_line != NULL)
+	printf("split_line\n);
+the export command is used to set an environmental variable in the current shell, making it available to any child process
+functionality: malloc and add the string to environmental variables(global var that is set)
+
+5. env
+list all environmental variables with /n 
+unlike export, it will set or modify environmental variables being used by that command without affecting the shell environmental variable
+display same as export
+We just have to list the variables though, no args necessary
+
+6. exit N
+exits program and returns the exit status of last command (unless N was specified, in which case it returns N)
+
+****7.Unset
+remove variable or function from current shell environment
+-free string from global var
+it would be best to make the global variable a linked list of strings
+
+
+
+
