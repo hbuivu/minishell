@@ -5,6 +5,7 @@ There can only be one global variable. I assume that would be the list of enviro
 -n = do not output the trailing newline
 ft_putstring input with newline
 if there is -n, do not include the newline
+PARSING - if command = echo, take the rest of string as just one string?
 
 2. cd 
 int chdir(const char *path)
@@ -36,6 +37,7 @@ list all environmental variables with /n
 unlike export, it will set or modify environmental variables being used by that command without affecting the shell environmental variable
 display same as export
 We just have to list the variables though, no args necessary
+env changes with cd. Every single time cd is executed, env updates OLDPWD
 
 6. exit N
 exits program and returns the exit status of last command (unless N was specified, in which case it returns N)
