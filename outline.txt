@@ -1,0 +1,31 @@
+Add to struct:
+-path of each command
+-PATH env var
+-HOME env var ->already included in data.home_dir
+-cur_directory -> to help with OLDPWD - included in data.cur_directory
+	-don't need prev_dir
+	-in cd: copy over old data.cur to Old pwd
+	-update pwd and cur_directory to current dirrectory
+-add num_paths to data(struct)
+
+structure
+-Path should be a linked list 
+
+C Files:
+Main 
+while 1
+-get the prompt
+-display the prompt
+-take commands
+-execute commands
+
+Builtins
+-see builtin.txt
+
+Get_prompt
+
+Get_path
+
+
+
+
