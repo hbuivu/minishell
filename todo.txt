@@ -1,0 +1,6 @@
+1. Create mini makefile
+2. Create mini tinyshell.h with structs (combine with J's later)
+	-env path struct in t_data ->copy from J but make smaller version
+3. Understand how cmd->arg.str works
+4. Test preliminary version of export (without accounting for special characters)
+5. Test preliminary version of echo

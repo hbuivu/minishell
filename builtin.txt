@@ -4,6 +4,9 @@ Someone else used the exit code as the global var
 
 Builtins should be executed in parent process unless there are pipes
 
+Special characters cause builtins to work weirdly. Check the subject, but also
+look up a list of all special chars and their effects
+
 1. echo
 -n = do not output the trailing newline
 ft_putstring input with newline
@@ -23,14 +26,31 @@ char *getcwd(char *buf, size_t size)
 use this function to get current directory
 printf the string
 
-***4. export
+4. export
 list all currently defined environmental variables in the current shell in alphabetical order
 ft_split env var;
 sort all variables in alphabetical order - need a print in alpha order function
 join each variable wtih "declare -x PATH" - or just print declare -x and then print the path
 ex: declare -x COLORTERM="truecolor"
-while (split_line != NULL)
-	printf("split_line\n);
+you can export several variables on the same line
+-if the variable doesn't have a value AND IT CURRENTLY DOESN'T EXIST, 
+it is set to NULL ('')
+-if export variable does not contain a =
+the value doesn't change
+-otherwise the value is changed each time it's set to something different, including null
+hello="" ->NULL;
+hello ->NULL;
+hello= ->NULL;
+hello=\ -> >
+hello=' ->quote> ->basically the value is a heredoc
+hello=" ->dquote
+-take into account special characters ->they are printed with ' '
+-take into account if the val is enclosed in " " or ' ' <- these are not printed output
+
+
+
+
+
 the export command is used to set an environmental variable in the current shell, making it available to any child process
 functionality: malloc and add the string to environmental variables(global var that is set)
 
@@ -44,8 +64,9 @@ env changes with cd. Every single time cd is executed, env updates OLDPWD
 6. exit N
 exits program and returns the exit status of last command (unless N was specified, in which case it returns N)
 
-****7.Unset
+7.Unset
 remove variable or function from current shell environment
+you can remove as many variables as needed in the same line
 -free string from global var
 it would be best to make the global variable a linked list of strings
 

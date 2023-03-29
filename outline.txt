@@ -8,8 +8,12 @@ Add to struct:
 	-update pwd and cur_directory to current dirrectory
 -add num_paths to data(struct)
 
-structure
--Path should be a linked list 
+ENV VARIABLES
+-variables should be stored in a linked list
+-struct should have:
+	variable
+	value
+	p - 1 to indicate printed/ 0 to indicate not printed
 
 C Files:
 Main 
