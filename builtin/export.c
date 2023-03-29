@@ -1,12 +1,5 @@
 //printf returns a negative value if there's an error 
-
-typedef struct s_list
-{
-	char			*var;
-	char			*val;
-	int				p; //for printed
-	struct s_list	*next;
-} t_list;
+#include "tinyshell.h"
 
 void	print_export(t_data *data)
 {

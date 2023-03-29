@@ -4,3 +4,4 @@
 3. Understand how cmd->arg.str works
 4. Test preliminary version of export (without accounting for special characters)
 5. Test preliminary version of echo
+6. adjust ft_calloc, ft_split so it exits on malloc error and frees all structs
