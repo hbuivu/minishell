@@ -111,14 +111,16 @@ char	*expand_var(char *val, int *i, t_data *data)
 		counter++;
 		len++;
 	}
-	printf("%i\n", len);
+	printf("len: %i\n", len);
 	var_name = (char *)ft_calloc(len + 1, sizeof(char));
 	if (!var_name)
 		error(data);
+	len = 0; //use a different var
 	while (!is_delimiter(val[*i], data))
 	{
-		var_name[*i] = val[*i];
+		var_name[len] = val[*i];
 		(*i)++;
+		len++;
 	}
 	printf("%s\n", var_name);
 	exist_var = find_existing_var(var_name, data);

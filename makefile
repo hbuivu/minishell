@@ -2,7 +2,8 @@ NAME = tinyshell
 
 SRCS = main.c env.c test_utils.c error.c print.c ./builtin/export.c 
 
-CFLAGS = -Wall -Wextra -Werror -lreadline
+# CFLAGS = -Wall -Wextra -Werror -lreadline
+CFLAGS = -I. -g -fsanitize=address -Wall -Wextra
 
 CC = cc
 

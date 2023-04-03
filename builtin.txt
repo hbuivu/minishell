@@ -7,6 +7,8 @@ Builtins should be executed in parent process unless there are pipes
 Special characters cause builtins to work weirdly. Check the subject, but also
 look up a list of all special chars and their effects
 
+Builtins can be written in caps or lowercase in any combination
+
 1. echo
 -n = do not output the trailing newline
 ft_putstring input with newline

@@ -29,6 +29,6 @@ int main(int argc, char **argv, char **envp)
 	// printf("%i\n", i);
 	
 	int i = 0;
-	char *str = expand_var("$NAME:", &i, &data);
+	char *str = expand_var("$USER=", &i, &data);
 	printf("%s\n", str);
 }
