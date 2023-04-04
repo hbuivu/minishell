@@ -1,0 +1,11 @@
+First things to do 
+- create env variables in a way that make sense
+	-original idea was to create a linked list of variables
+	-each variable has a linked list of values
+	-it was going to be an array of strings at first but that seemed incomplete
+-create builtin prototypes
+
+-simplifying env variables. Now it will be char *var and char *value
+-when we need individual vals, we can split up the values as needed
+-path will be separate element in the struct
+-also need to update J's our_env -> create a function for this

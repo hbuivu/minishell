@@ -1,6 +1,6 @@
 
 //or change arg to char *str if possible
-void	ft_echo(char **str)
+void	ft_echo(char **str, t_data *data)
 {
 	int	i;
 	int	nl;
@@ -18,12 +18,14 @@ void	ft_echo(char **str)
 	while (str[i])
 	{
 		if (str[i + 1] != NULL)
-			printf("%s ", str[i]);
+			// printf("%s ", str[i]);
+			print_string(2, data, str[i], " ");
 		else if (str[i + 1] == NULL)
 		{
-			printf("%s", str[i]);
+			// printf("%s", str[i]);
+			print_string(1, data, str[i]);
 			if (nl == 1)
-				printf("\n");
+				print_string(1, data, "\n");
 		}
 		i++;
 	}

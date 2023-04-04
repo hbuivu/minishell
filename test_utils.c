@@ -35,3 +35,12 @@ void	print_splitlist(char **list)
 // 		cur = cur->next;
 // 	}
 // }
+
+void	print_strlist(char **list, t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (list[++i])
+		print_string(1, data, list[i]);
+}

@@ -26,3 +26,5 @@ You are welcome to modify the contents of the line, but see Allowing Undoing.
 The wait3() and wait4() system calls are similar to waitpid(2), 
 but additionally return resource usage information about the child in the structure pointed to by rusage.
 
+printf returns a negative value if there's an error 
+

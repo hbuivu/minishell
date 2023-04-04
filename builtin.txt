@@ -73,6 +73,8 @@ you can remove as many variables as needed in the same line
 -free string from global var
 it would be best to make the global variable a linked list of strings
 
+create a function that detects builtins and executes them (similar to execute function);
+
 
 
 

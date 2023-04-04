@@ -1,20 +1,5 @@
-//printf returns a negative value if there's an error 
 #include "../tinyshell.h"
 
-void	print_values(t_val **list, t_data *data)
-{
-	t_val *cur;
-
-	cur = *list;
-	while (cur)
-	{
-		if (cur->next && printf("%s:", cur->val) == -1)
-			error(data);
-		else if (!cur->next && printf("%s\n", cur->val) == -1)
-			error(data);
-		cur = cur->next;
-	}
-}
 void	print_export(t_data *data)
 {
 	t_env	*temp;
@@ -23,7 +8,7 @@ void	print_export(t_data *data)
 	while (1)
 	{
 		//find the first var that hasn't been printed
-		temp = *(data->our_env);
+		temp = *(data->env_list);
 		while (temp && temp->p == 1)
 			temp = temp->next;
 		//if everything has been printed, break out of loop
@@ -44,10 +29,10 @@ void	print_export(t_data *data)
 		if (to_print->vals == NULL)
 			print_string(1, data, "''\n");
 		else
-			print_values(to_print->vals, data);
+			print_string(2, data, to_print->vals, "\n");
 	}
 	//reset all p to 0;
-	temp = *(data->our_env);
+	temp = *(data->env_list);
 	while (temp != NULL)
 	{
 		temp->p = 0;
@@ -60,7 +45,7 @@ t_env	*find_existing_var(char *var, t_data *data)
 {
 	t_env *env_var;
 
-	env_var = *(data->our_env);
+	env_var = *(data->env_list);
 	while (env_var)
 	{
 		if (ft_strncmp(env_var->var, var, ft_strlen(var) + 1) == 0)
@@ -69,76 +54,144 @@ t_env	*find_existing_var(char *var, t_data *data)
 	}
 	return (NULL);
 }
-// //vals are a linked list of strings
-// //check values by $ and expand all
-// //create final temp_vals
-// //split final temp_vals by :
-// //while there are existing vals, check the new vals and against existing vals and change if necessary
-// //if there are still new vals, add nodes
-// //make a list of special characters that can't be used as delimiters
 
-//checks to see if a character is a delimiter. returns 0 if not, 1 if yes
-int	is_delimiter(char c, t_data *data)
+/* looks for char and returns index of that char if found. else it returns -1*/
+int	detect_char(char *str, char c)
 {
 	int	i;
 
 	i = 0;
-	while (data->delimiters[i])
+	while (str[i])
 	{
-		if (c == data->delimiters[i])
-			return (1);
+		if (str[i] == c)
+			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
-//expands a variable to values if the variable exists
-char	*expand_var(char *val, int *i, t_data *data)
+char	**split_export(char *str, t_data *data)
 {
-	int		len;
-	int		counter;
-	char	*var_name;
-	t_env	*exist_var;
-	char	*var_values;
-	char	*temp;
+	int		var_len;
+	int		val_len;
+	char	**ret_split;
 
-	(*i)++;
-	counter = *i;
-	len = 0;
-	var_values = NULL;
-	while (!is_delimiter(val[counter], data))
-	{
-		counter++;
-		len++;
-	}
-	printf("len: %i\n", len);
-	var_name = (char *)ft_calloc(len + 1, sizeof(char));
-	if (!var_name)
+	ret_split = (char **)ft_calloc(2, sizeof(char *));
+	if (!ret_split)
 		error(data);
-	len = 0; //use a different var
-	while (!is_delimiter(val[*i], data))
-	{
-		var_name[len] = val[*i];
-		(*i)++;
-		len++;
-	}
-	printf("%s\n", var_name);
-	exist_var = find_existing_var(var_name, data);
-	free(var_name);
-	if (exist_var)
-	{
-		var_values = ft_strdup((*exist_var->vals)->val);
-		(*exist_var->vals) = (*exist_var->vals)->next;
-		while((*exist_var->vals)->val)
-		{
-			temp = ft_strjoin(var_values, (*exist_var->vals)->val);
-			free(var_values);
-			var_values = temp;
-			(*exist_var->vals) = (*exist_var->vals)->next;
-		}
-	}
-	return (var_values);
+	var_len = detect_char(str, '=');
+	ret_split[0] = (char *)ft_calloc(var_len + 1, sizeof(char));
+	if (!ret_split[0])
+		error(data);
+	val_len = ft_strlen(str) - (var_len + 1);
+	ret_split[1] = (char *)ft_calloc(val_len + 1, sizeof(char));
+	if (!ret_split[1])
+		error(data);
+	ft_strlcpy(ret_split[0], str, var_len + 1);
+	str += (var_len + 1);
+	ft_strlcpy(ret_split[1], str, val_len + 1);
+	return (ret_split);
 }
+
+// void	modify_our_env(t_data *data)
+// {
+// 	//get list size
+// 	//malloc that many pointers into char **our_env
+// 	//while (list size)
+// 		//malloc ft_strlen(var) + ft_strlen(val) + 2;
+// 		//ft_strlcpy(buf, var, ft_strlen(var);
+// 		//ft_strlcat(buf, "=", 1);
+// 		//ft_strlcat(buf, val, ft_strlen(val));
+// 	//free our_env
+// 	//our_env  = new_env
+// 	int		size;
+// 	int		i;
+// 	int		var_len;
+// 	int		val_len;
+// 	t_env	*cur;
+// 	char	**new_env;
+
+// 	size = 0;
+// 	cur = *data->env_list;
+// 	while (cur)
+// 	{
+// 		size++;
+// 		cur = cur->next;
+// 	}
+// 	new_env = (char **)ft_calloc(size + 1, sizeof(char *));
+// 	if (!new_env)
+// 		error(data);
+// 	i = 0;
+// 	cur = *data->env_list;
+// 	while (i < size)
+// 	{
+// 		var_len = ft_strlen(cur->var);
+// 		val_len = ft_strlen(cur->vals);
+// 		new_env[i] = (char *)ft_calloc(var_len + val_len + 2, sizeof(char *));
+// 		if (!new_env[i])
+// 			error(data);
+// 		ft_strlcpy(new_env[i], cur->var, var_len);
+// 		ft_strlcat(new_env[i], "=", 1);
+// 		ft_strlcat(new_env[i], cur->vals, val_len);
+// 		i++;
+// 		cur = cur->next;
+// 	}
+// 	//free(data->our_env);
+// 	data->our_env = new_env;
+// }
+
+void	add_env_var(char *var, char *val, t_data *data)
+{
+	t_env 	*node;
+	t_env	*last;
+	
+	node = (t_env *)ft_calloc(1, sizeof(t_env));
+	node->var = ft_strdup(var); //check for malloc error
+	if (!val)
+		node->vals = NULL;
+	else
+		node->vals = ft_strdup(val); //check for malloc error
+	last = *data->env_list; 
+	while (last->next)
+		last = last->next;
+	last->next = node;
+	// modify_our_env(data);
+}
+
+
+/* export variables */
+void	ft_export(char *arg, t_data *data) //takes in data->cmd->arragy_arg[1];
+{
+	//detect '='
+		//if none, look for variable
+		//if it doesn't exist, add to list
+	//if == exists
+	//split arg into var and value by '=' - special ft_split that splits on the first = it finds
+	//look to see if var exists
+		//if yes - change the value
+		//if no, add the var and value to the list
+	
+	t_env	*var;
+	char	**split_arg;
+	
+	if (!detect_char(arg, '='))
+	{
+		var = find_existing_var(arg, data);
+		if (!var)
+			add_env_var(arg, NULL, data);
+	}
+	else
+	{
+		split_arg = split_export(arg, data);
+		var = find_existing_var(split_arg[0], data);
+		if (!var)
+			add_env_var(split_arg[0], split_arg[1], data);
+		else
+			var->vals = ft_strdup(split_arg[1]); //check for malloc error
+		//free(split_arg);
+	}
+}
+
 
 // //expand the whole string of values to the final value string
 // char	**expand_val(char *val, t_data *data)
@@ -301,4 +354,92 @@ char	*expand_var(char *val, int *i, t_data *data)
 
 // 	}
 // }
+
+/* Print values if there is a t_val **list */
+// void	print_values(t_val **list, t_data *data)
+// {
+// 	t_val *cur;
+
+// 	cur = *list;
+// 	while (cur)
+// 	{
+// 		if (cur->next && printf("%s:", cur->val) == -1)
+// 			error(data);
+// 		else if (!cur->next && printf("%s\n", cur->val) == -1)
+// 			error(data);
+// 		cur = cur->next;
+// 	}
+// }
+
+// //vals are a linked list of strings
+// //check values by $ and expand all
+// //create final temp_vals
+// //split final temp_vals by :
+// //while there are existing vals, check the new vals and against existing vals and change if necessary
+// //if there are still new vals, add nodes
+// //make a list of special characters that can't be used as delimiters
+
+// //checks to see if a character is a delimiter. returns 0 if not, 1 if yes
+// int	is_delimiter(char c, t_data *data)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (data->delimiters[i])
+// 	{
+// 		if (c == data->delimiters[i])
+// 			return (1);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+// //expands a variable to values if the variable exists
+// char	*expand_var(char *val, int *i, t_data *data)
+// {
+// 	int		len;
+// 	int		counter;
+// 	char	*var_name;
+// 	t_env	*exist_var;
+// 	char	*var_values;
+// 	char	*temp;
+
+// 	(*i)++;
+// 	counter = *i;
+// 	len = 0;
+// 	var_values = NULL;
+// 	while (!is_delimiter(val[counter], data))
+// 	{
+// 		counter++;
+// 		len++;
+// 	}
+// 	printf("len: %i\n", len);
+// 	var_name = (char *)ft_calloc(len + 1, sizeof(char));
+// 	if (!var_name)
+// 		error(data);
+// 	len = 0; //use a different var
+// 	while (!is_delimiter(val[*i], data))
+// 	{
+// 		var_name[len] = val[*i];
+// 		(*i)++;
+// 		len++;
+// 	}
+// 	printf("%s\n", var_name);
+// 	exist_var = find_existing_var(var_name, data);
+// 	free(var_name);
+// 	if (exist_var)
+// 	{
+// 		var_values = ft_strdup((*exist_var->vals)->val);
+// 		(*exist_var->vals) = (*exist_var->vals)->next;
+// 		while((*exist_var->vals)->val)
+// 		{
+// 			temp = ft_strjoin(var_values, (*exist_var->vals)->val);
+// 			free(var_values);
+// 			var_values = temp;
+// 			(*exist_var->vals) = (*exist_var->vals)->next;
+// 		}
+// 	}
+// 	return (var_values);
+// }
+
 
