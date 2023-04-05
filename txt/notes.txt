@@ -28,3 +28,30 @@ but additionally return resource usage information about the child in the struct
 
 printf returns a negative value if there's an error 
 
+EXPORT
+1. print EXPORT
+2. find existing var
+3. detect char
+4. split EXPORT
+5. ft_strdup_lim
+6. adjust_our_env
+7. modify_our_env
+8. add_env_var
+9. ft_EXPORT
+
+Reorganize:
+EXPORT
+1. print_export
+2. export
+
+ENV
+1. find_exisisting var
+2. adjust_our_env
+3. modify_our_env
+
+UTILS
+1. detect_char -> put in utils for now but might just need it for EXPORT
+2. ft_strdup_lim
+3. 
+
+

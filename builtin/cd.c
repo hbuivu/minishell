@@ -1,41 +1,32 @@
 #include "tinyshell.h"
+//change directory display??????
 
-void	ft_cd(char **cmd, t_data *data)
+void	ft_cd(char **arg, t_data *data)
 {
-	//change directory
-	//check env pwd 
-	//put that into another buffer
-	//change env pwd to current directory
-	//check if oldpwd exists
-		//if yes, go to old_pwd
-		//change to what is in the buffer
-		//if no, create an old_pwd node
-	//change array of env based on linked list changes
-	//change directory display??????
-
 	char	*curr_dir;
 	char	*old_dir;
 	t_env	*pwd_var;
 	t_env 	*old_pwd_var;
-	//changed directories
-	if (chdir(cmd[1]) != 0)
+
+	//change directories
+	if (chdir(arg[1]) != 0)
 		error(data);
 	//copy over previous directory
-	pwd_var = find_existing_var("PWD", data);
-	old_dir = ft_strdup(pwd_var->vals); //malloc error later
+	pwd_var = find_var_envlist("PWD", data);
+	old_dir = ft_strdup_lim(pwd_var->val, '\0', data);
 	//find oldpwd if it exists
-	old_pwd_var = find_existing_var("OLDPWD", data);
+	old_pwd_var = find_var_envlist("OLDPWD", data);
+	//if oldpwd doesn't exist, add env; else, free old value and create new value. also modify in our_env
 	if (old_pwd_var == NULL)
 		add_env_var("OLDPWD", old_dir, data);
 	else
 	{
-		free(old_pwd_var->vals);
-		old_pwd_var->vals = ft_strdup(old_dir);
+		free(old_pwd_var->val);
+		old_pwd_var->val = old_dir;
+		modify_our_env(old_pwd_var, data);
 	}
-	//change our_env array
-	modify_our_env(data);
-	//change current pwd
+	//change pwd var
 	curr_dir = get_cwd(NULL, 0);
-	pwd_var->vals = curr_dir;
-	
+	pwd_var->val = curr_dir;
+	modify_our_env(pwd_var, data);
 }
