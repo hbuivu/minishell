@@ -50,14 +50,17 @@ void	print_our_env(t_env **our_env);
 void	print_splitlist(char **list);
 
 /* BUILTINS */
-void	print_export(t_data *data);
-char	**split_export(char *str, t_data *data);
 
 /* EXPORT */
+void	print_export(t_data *data);
+char	**split_export(char *str, t_data *data);
 t_env	*find_existing_var(char *var, t_data *data);
 int		is_delimiter(char c, t_data *data);
 char	*expand_var(char *val, int *i, t_data *data);
 void	ft_export(char *arg, t_data *data);
+
+/* ECHO */
+void	ft_echo(char **str, t_data *data);
 
 /* STRUCTURES */
 void	init_env(t_data *data, char **envp);

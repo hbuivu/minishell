@@ -93,52 +93,81 @@ char	**split_export(char *str, t_data *data)
 	return (ret_split);
 }
 
-// void	modify_our_env(t_data *data)
-// {
-// 	//get list size
-// 	//malloc that many pointers into char **our_env
-// 	//while (list size)
-// 		//malloc ft_strlen(var) + ft_strlen(val) + 2;
-// 		//ft_strlcpy(buf, var, ft_strlen(var);
-// 		//ft_strlcat(buf, "=", 1);
-// 		//ft_strlcat(buf, val, ft_strlen(val));
-// 	//free our_env
-// 	//our_env  = new_env
-// 	int		size;
-// 	int		i;
-// 	int		var_len;
-// 	int		val_len;
-// 	t_env	*cur;
-// 	char	**new_env;
+void	adjust_our_env(char *var, char *val, t_data *data)
+{
+	//look for var in char **array
+	//free that var
+	//get new length of var=val
+	//malloc new length 
+	//copy over old var and new value
+	//instead of var and val can I use t_env
+	char	**our_env;
+	char	*temp_var;
+	int		i;
+	
+	our_env = data->our_env;
+	i = 0;
+	while (our_env[i])
+	{
+		temp_var = /* copy over variable until but not including the = sign*/;
+		if (strncmp(temp_var, var, ft_strlen(temp_var)) == 0)
+			break;
+		i++;
+	}
+	free(our_env[i]);
+	our_env[i] = (char *)ft_calloc(ft_strlen())
+	
+}
 
-// 	size = 0;
-// 	cur = *data->env_list;
-// 	while (cur)
-// 	{
-// 		size++;
-// 		cur = cur->next;
-// 	}
-// 	new_env = (char **)ft_calloc(size + 1, sizeof(char *));
-// 	if (!new_env)
-// 		error(data);
-// 	i = 0;
-// 	cur = *data->env_list;
-// 	while (i < size)
-// 	{
-// 		var_len = ft_strlen(cur->var);
-// 		val_len = ft_strlen(cur->vals);
-// 		new_env[i] = (char *)ft_calloc(var_len + val_len + 2, sizeof(char *));
-// 		if (!new_env[i])
-// 			error(data);
-// 		ft_strlcpy(new_env[i], cur->var, var_len);
-// 		ft_strlcat(new_env[i], "=", 1);
-// 		ft_strlcat(new_env[i], cur->vals, val_len);
-// 		i++;
-// 		cur = cur->next;
-// 	}
-// 	//free(data->our_env);
-// 	data->our_env = new_env;
-// }
+void	modify_our_env(t_data *data) //this is to delete all and rewrite (rewrite_our_env)
+{
+	//two methods:
+	//1. if add/delete values then free everything and rewrite
+	//2. if adjusting the value only, then find the var and just free that and rewrite
+	//get list size
+	//malloc that many pointers into char **our_env
+	//while (list size)
+		//malloc ft_strlen(var) + ft_strlen(val) + 2;
+		//ft_strlcpy(buf, var, ft_strlen(var);
+		//ft_strlcat(buf, "=", 1);
+		//ft_strlcat(buf, val, ft_strlen(val));
+	//free our_env
+	//our_env  = new_env
+	int		size;
+	int		i;
+	int		var_len;
+	int		val_len;
+	t_env	*cur;
+	char	**new_env;
+
+	size = 0;
+	cur = *data->env_list;
+	while (cur)
+	{
+		size++;
+		cur = cur->next;
+	}
+	new_env = (char **)ft_calloc(size + 1, sizeof(char *));
+	if (!new_env)
+		error(data);
+	i = 0;
+	cur = *data->env_list;
+	while (i < size)
+	{
+		var_len = ft_strlen(cur->var);
+		val_len = ft_strlen(cur->vals);
+		new_env[i] = (char *)ft_calloc(var_len + val_len + 2, sizeof(char *));
+		if (!new_env[i])
+			error(data);
+		ft_strlcpy(new_env[i], cur->var, var_len);
+		ft_strlcat(new_env[i], "=", 1);
+		ft_strlcat(new_env[i], cur->vals, val_len);
+		i++;
+		cur = cur->next;
+	}
+	//free(data->our_env);
+	data->our_env = new_env;
+}
 
 void	add_env_var(char *var, char *val, t_data *data)
 {

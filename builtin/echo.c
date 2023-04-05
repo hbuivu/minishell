@@ -1,3 +1,4 @@
+#include "tinyshell.h"
 
 //or change arg to char *str if possible
 void	ft_echo(char **str, t_data *data)

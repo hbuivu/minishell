@@ -31,7 +31,11 @@ int main(int argc, char **argv, char **envp)
 
 	// int i = is_delimiter('=', &data);
 	// printf("%i\n", i);
-	ft_export("hello=2", &data);
-	print_export(&data);
+	// ft_export("hello=2", &data);
+	// print_export(&data);
+
+	char *str[4] = {"export", "hello", NULL};
+
+	ft_echo(str, &data);
 
 }
