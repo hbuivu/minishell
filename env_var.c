@@ -15,16 +15,17 @@ t_env	*find_var_envlist(char *key, t_data *data)
 	return (NULL);
 }
 
-/* find if a keyiable exists in our_env. Return index if it exists, -1 if it doesn't */
+/* find if a variable exists in our_env. Return index if it exists, -1 if it doesn't */
 int	find_var_ourenv(char *key, t_data *data)
 {
-	int i;
+	int 	i;
+	char	*temp_key;
 
 	i = 0;
 	while (data->our_env[i])
 	{
-		temp_key = ft_strdup_lim(data->our_env[i], '=');
-		if (ft_strlcmp(temp_key, key->key, ft_strlen(temp_key)) == 0)
+		temp_key = ft_strdup_lim(data->our_env[i], '=', data);
+		if (ft_strncmp(temp_key, key, ft_strlen(temp_key)) == 0)
 		{
 			free(temp_key);
 			return (i);
@@ -32,7 +33,7 @@ int	find_var_ourenv(char *key, t_data *data)
 		free(temp_key);
 		i++;
 	}
-	free(temp_key)
+	free(temp_key);
 	return (-1);
 }
 
@@ -46,9 +47,9 @@ char	*create_new_entry(t_env *env_var, t_data *data)
 	key_len = ft_strlen(env_var->key);
 	val_len = ft_strlen(env_var->val);
 	new_entry = (char *)ft_calloc_e(key_len + val_len + 2, sizeof(char), data);
-	ft_strlcpy(new_entry, env_var->key, key_len);
-	ft_strlcat(new_entry, "=", 1);
-	ft_strlcat(new_entry, env_var->val, val_len);
+	ft_strlcpy(new_entry, env_var->key, key_len + 1);
+	ft_strlcat(new_entry, "=", key_len + 2);
+	ft_strlcat(new_entry, env_var->val, key_len + val_len + 2);
 	return (new_entry);
 }
 
@@ -76,7 +77,9 @@ void	rewrite_our_env(t_data *data)
 		i++;
 		cur_env_var = cur_env_var->next;
 	}
-	free_strlist(data->our_env);
+	new_env[i] = NULL;
+	if(data->our_env)
+		free_strlist(data->our_env);
 	data->our_env = new_env;
 }
 

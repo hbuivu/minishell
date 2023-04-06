@@ -2,7 +2,7 @@
 
 void	ft_env(t_data *data)
 {
-	char	*our_env;
+	char	**our_env;
 	int		i;
 
 	our_env = data->our_env;

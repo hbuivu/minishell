@@ -9,10 +9,10 @@ void	print_strlist(char **list)
 		printf("(null)");
 	while (list[i])
 	{
-		printf("%s, ", list[i]);
+		printf("%s\n", list[i]);
 		i++;
 	}
-	printf("\n");
+	// printf("\n");
 }
 
 void	print_env_list(t_env **env_list)

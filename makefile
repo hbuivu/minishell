@@ -1,9 +1,10 @@
 NAME = tinyshell
 
-SRCS = main.c env.c test_utils.c error.c print.c ./builtin/export.c ./builtin/echo.c
+SRCS = main.c env_var.c utils.c testers.c \
+	builtin/builtin.c builtin/cd.c builtin/echo.c builtin/env.c builtin/export.c builtin/pwd.c builtin/unset.c
 
-CFLAGS = -Wall -Wextra -Werror -lreadline
-# CFLAGS = -I. -g -fsanitize=address -Wall -Wextra
+# CFLAGS = -Wall -Wextra -Werror -lreadline
+CFLAGS = -I. -g -fsanitize=address -Wall -Wextra
 
 CC = cc
 

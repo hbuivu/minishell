@@ -8,9 +8,13 @@ void	ft_cd(char **arg, t_data *data)
 	t_env	*pwd_var;
 	t_env 	*old_pwd_var;
 
+	//if no arguments -> go to home
+	if (arg[1] == NULL)
+		chdir(data->home_dir);
 	//change directories
-	if (chdir(arg[1]) != 0)
-		error(data);
+	else 
+		if (chdir(arg[1]) != 0)
+			error(data);
 	//copy over previous directory
 	pwd_var = find_var_envlist("PWD", data);
 	old_dir = ft_strdup_lim(pwd_var->val, '\0', data);
@@ -26,7 +30,7 @@ void	ft_cd(char **arg, t_data *data)
 		modify_our_env(old_pwd_var, data);
 	}
 	//change pwd var
-	curr_dir = get_cwd(NULL, 0);
+	curr_dir = getcwd(NULL, 0);
 	pwd_var->val = curr_dir;
 	modify_our_env(pwd_var, data);
 }

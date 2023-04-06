@@ -76,10 +76,12 @@ void	ft_export(char **arg, t_data *data)
 	while (arg[i])
 	{
 		//if no '=', add var if it doesn't exist, otherwise do nothing
+		//if '=', change value if var exists, otherwise add var and value
 		if (!detect_char(arg[i], '='))
+		{
 			if (!find_var_envlist(arg[i], data))
 				add_env_var(arg[i], NULL, data);
-		//if '=', change value if var exists, otherwise add var and value
+		}
 		else
 		{
 			split_arg = split_export(arg[i], data);

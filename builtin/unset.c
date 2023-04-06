@@ -23,6 +23,22 @@ void	remove_var(t_env *env_var, t_data *data)
 	free_env_var(temp);
 }
 
+void	clear_envlist(t_env **env_list)
+{
+	t_env *cur;
+
+
+	while (cur)
+	{
+		cur = *env_list;
+		free(cur->key);
+		free(cur->val);
+		*env_list = cur->next;
+		free(cur);
+	}
+	free(env_list);
+}
+
 void	ft_unset(char **arg, t_data *data)
 {
 	int		i;
@@ -31,7 +47,7 @@ void	ft_unset(char **arg, t_data *data)
 	i = 1;
 	if (!arg[i])
 	{
-		clear_envlist(data->envlist);
+		clear_envlist(data->env_list);
 		free_strlist(data->our_env);
 	}
 	else

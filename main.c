@@ -15,14 +15,11 @@ void	init_env(t_data *data, char **envp)
 	{
 		node = (t_env *)ft_calloc(1, sizeof(t_env));
 		split_var = ft_split(envp[i], '=');
-		node->var = ft_strdup(split_var[0]); //check strdup for malloc error
-		node->vals = ft_strdup(split_var[1]);
-		// print_vals(node);
+		node->key = ft_strdup(split_var[0]); //check strdup for malloc error
+		node->val = ft_strdup(split_var[1]);
 		node->next = NULL;
 		node->prev = cur;
-		// free(split_var);
-		// free(split_val);
-		//we do not free split_val bc we assign it directly to node->val
+		free_strlist(split_var);
 		if (!*env_list)
 			*env_list = node;
 		else
@@ -32,42 +29,26 @@ void	init_env(t_data *data, char **envp)
 	data->env_list = env_list;
 }
 
+void	init_test_data(t_data *data, char **envp)
+{
+	data->cmd = NULL;
+	data->env_list = NULL;
+	data->our_env = NULL;
+	init_env(data, envp);
+	modify_our_env(NULL, data);
+	data->home_dir = getenv("HOME");
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	(void)envp;
-	// t_data	data;
-	// t_env	*env_ptr;
+	// (void)envp;
+	t_data	data;
+	char *arg[3] = {"cd", NULL};
 
-	// init_env(&data, envp);
-	// init_delimiters(&data);
-	//printf only prints (null) if the string has been allocated???
-	// print_our_env(data.our_env);
-	
-	// print_export(&data);
-	// char *str = "PATH=i=1:j=2:k=3";
-	// char **buf = split_export(str, &data);
-	// for (int i = 0; i < 2; i++)
-	// 	printf("%s\n", buf[i]);
-	
-	// env_ptr = find_existing_var("something", &data);
-	// if (env_ptr == NULL)
-	// 	printf("This var doesn't exist\n");
-	// else
-	// 	printf("This var exists: %s\n", env_ptr->var);
+	init_test_data(&data, envp);
 
-	// int i = is_delimiter('=', &data);
-	// printf("%i\n", i);
-	// ft_export("hello=2", &data);
-	// print_export(&data);
-
-	// char *str[4] = {"export", "hello", NULL};
-
-	// ft_echo(str, &data);
-
-	char *str = ft_strdup_lim("echo=2", '=');
-	printf("%s\n", str);
-	free(str);
-
+	execute_builtin(arg, &data);
+	print_data(&data);
 }

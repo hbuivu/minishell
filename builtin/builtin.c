@@ -16,7 +16,7 @@ char	*lower_str(char *str, t_data *data)
 			low_str[i] = str[i];
 		i++;
 	}
-	return (low_str)
+	return (low_str);
 }
 
 void	execute_builtin(char **arg, t_data *data)

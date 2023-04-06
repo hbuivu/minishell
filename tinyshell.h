@@ -29,16 +29,28 @@ typedef struct s_data
 	t_cmd	*cmd;
 	t_env	**env_list;
 	char	**our_env;
+	char	*home_dir;
 
 }	t_data;
 
 /************* BUILTINS *************/
-/* EXPORT */
-
-/* ECHO */
+void	ft_cd(char **arg, t_data *data);
 void	ft_echo(char **str, t_data *data);
+void	ft_env(t_data *data);
+void	ft_export(char **arg, t_data *data);
+void	*ft_pwd(t_data *data);
+void	ft_unset(char **arg, t_data *data);
+
+/* BUILTIN */
+void	execute_builtin(char **arg, t_data *data);
+
+/* ENV VAR */
+t_env	*find_var_envlist(char *key, t_data *data);
+void	modify_our_env(t_env *env_var, t_data *data);
+void	add_env_var(char *key, char *val, t_data *data);
 
 /* UTILS */
+int		detect_char(char *str, char c);
 void	print_string(int num_str, ...);
 void	error(t_data *data);
 void	print_string(int num_str, ...);
