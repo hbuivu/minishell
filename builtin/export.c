@@ -41,24 +41,6 @@ void	print_export(t_data *data)
 	}
 }
 
-/* split variable by only the first '=' and returns an array with key and value */
-char	**split_export(char *str, t_data *data)
-{
-	int		var_len;
-	int		val_len;
-	char	**ret_split;
-
-	ret_split = (char **)ft_calloc_e(2, sizeof(char *), data);
-	var_len = detect_char(str, '=');
-	ret_split[0] = (char *)ft_calloc_e(var_len + 1, sizeof(char), data);
-	val_len = ft_strlen(str) - (var_len + 1);
-	ret_split[1] = (char *)ft_calloc_e(val_len + 1, sizeof(char), data);
-	ft_strlcpy(ret_split[0], str, var_len + 1);
-	str += (var_len + 1);
-	ft_strlcpy(ret_split[1], str, val_len + 1);
-	return (ret_split);
-}
-
 /* export variables */
 void	ft_export(char **arg, t_data *data) 
 {	
@@ -84,7 +66,7 @@ void	ft_export(char **arg, t_data *data)
 		}
 		else
 		{
-			split_arg = split_export(arg[i], data);
+			split_arg = split_env_var(arg[i], data);
 			env_var = find_var_envlist(split_arg[0], data);
 			if (!env_var)
 				add_env_var(split_arg[0], split_arg[1], data);

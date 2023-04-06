@@ -14,9 +14,9 @@ void	init_env(t_data *data, char **envp)
 	while (envp[++i])
 	{
 		node = (t_env *)ft_calloc(1, sizeof(t_env));
-		split_var = ft_split(envp[i], '=');
-		node->key = ft_strdup(split_var[0]); //check strdup for malloc error
-		node->val = ft_strdup(split_var[1]);
+		split_var = split_env_var(envp[i], data);
+		node->key = ft_strdup_lim(split_var[0], '\0', data);
+		node->val = ft_strdup_lim(split_var[1], '\0', data);
 		node->next = NULL;
 		node->prev = cur;
 		free_strlist(split_var);
@@ -45,10 +45,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	// (void)envp;
 	t_data	data;
-	char *arg[3] = {"cd", NULL};
-
+	
 	init_test_data(&data, envp);
-
-	execute_builtin(arg, &data);
-	print_data(&data);
+	// print_data(&data);
 }

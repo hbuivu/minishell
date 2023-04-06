@@ -38,7 +38,7 @@ void	ft_cd(char **arg, t_data *data);
 void	ft_echo(char **str, t_data *data);
 void	ft_env(t_data *data);
 void	ft_export(char **arg, t_data *data);
-void	*ft_pwd(t_data *data);
+void	ft_pwd(t_data *data);
 void	ft_unset(char **arg, t_data *data);
 
 /* BUILTIN */
@@ -57,6 +57,7 @@ void	print_string(int num_str, ...);
 void	*ft_calloc_e(size_t count, size_t size, t_data *data);
 char	*ft_strdup_lim(const char *s1, char c, t_data *data);
 void	free_strlist(char **str);
+char	**split_env_var(char *str, t_data *data);
 
 
 /* TESTERS */

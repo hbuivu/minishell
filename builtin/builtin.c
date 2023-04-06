@@ -1,5 +1,5 @@
 
-#include "tinyshell.h"
+#include "../tinyshell.h"
 
 char	*lower_str(char *str, t_data *data)
 {

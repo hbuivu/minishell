@@ -1,4 +1,4 @@
-#include "tinyshell.h"
+#include "../tinyshell.h"
 
 void	free_env_var(t_env *env_var)
 {

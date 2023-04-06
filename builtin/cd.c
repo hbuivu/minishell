@@ -1,4 +1,4 @@
-#include "tinyshell.h"
+#include "../tinyshell.h"
 //change directory display??????
 
 void	ft_cd(char **arg, t_data *data)
@@ -13,8 +13,13 @@ void	ft_cd(char **arg, t_data *data)
 		chdir(data->home_dir);
 	//change directories
 	else 
+	{
 		if (chdir(arg[1]) != 0)
+		{
+			printf("-bash: cd: %s No such file or directory\n", arg[1]);
 			error(data);
+		}
+	}
 	//copy over previous directory
 	pwd_var = find_var_envlist("PWD", data);
 	old_dir = ft_strdup_lim(pwd_var->val, '\0', data);

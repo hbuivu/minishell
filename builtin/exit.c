@@ -1,4 +1,4 @@
-#include "tinyshell.h"
+#include "../tinyshell.h"
 
 //return last exit status
 //exit out of shell

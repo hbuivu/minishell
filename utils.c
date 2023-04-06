@@ -74,12 +74,32 @@ void	free_strlist(char **str)
 	int	i;
 
 	i = 0;
-	if (!str)
-		return ;
-	while(str[i])
+	if (str && *str)
 	{
-		free(str[i]);
-		i++;
+		while(str[i])
+		{
+			free(str[i]);
+			i++;
+		}
 	}
-	free(str);
+	if (str)
+		free(str);
+}
+
+/* split variable by only the first '=' and returns an array with key and value */
+char	**split_env_var(char *str, t_data *data)
+{
+	int		var_len;
+	int		val_len;
+	char	**ret_split;
+
+	ret_split = (char **)ft_calloc_e(2, sizeof(char *), data);
+	var_len = detect_char(str, '=');
+	ret_split[0] = (char *)ft_calloc_e(var_len + 1, sizeof(char), data);
+	val_len = ft_strlen(str) - (var_len + 1);
+	ret_split[1] = (char *)ft_calloc_e(val_len + 1, sizeof(char), data);
+	ft_strlcpy(ret_split[0], str, var_len + 1);
+	str += (var_len + 1);
+	ft_strlcpy(ret_split[1], str, val_len + 1);
+	return (ret_split);
 }

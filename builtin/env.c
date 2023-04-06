@@ -1,4 +1,4 @@
-#include "tinyshell.h"
+#include "../tinyshell.h"
 
 void	ft_env(t_data *data)
 {
